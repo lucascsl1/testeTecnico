@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Audited
 @Entity
-@Table
+@Table(name="licenca")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

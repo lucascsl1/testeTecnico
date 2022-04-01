@@ -1,14 +1,12 @@
 package testeTecnico.entidades;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -23,13 +21,12 @@ import lombok.NoArgsConstructor;
 
 @Audited
 @Entity
-@Table
+@Table(name="cliente",
+	uniqueConstraints={@UniqueConstraint(columnNames={"nome","cnpj"})})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Cliente {
-
-	public static final String EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$";
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -54,18 +51,5 @@ public class Cliente {
     @NotEmpty
 	@Column(length = 80)
     private String email;
-
-	/**
-	 * Verifica se email é válido, com base em EMAIL_REGEX;
-	 * @param email
-	 */
-	public boolean validarEmail(String email) {
-		if(email == null || email.isEmpty())
-			return false;
-
-		Pattern pattern = Pattern.compile(EMAIL_REGEX);
-		Matcher matcher = pattern.matcher(email);
-		return matcher.matches();
-	}
 
 }
